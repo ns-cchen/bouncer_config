@@ -49,9 +49,9 @@ while True:
 print(f"Available options:")
 print("1. Modify bouncer_config.yaml")
 print("2. Restart bouncer")
-choice = input("Enter a choice: ")
+option = input("Enter the option: ")
 
-if choice == "1":
+if option == "1":
     step = 1
     while True:
         if step == 1:
@@ -185,7 +185,7 @@ if choice == "1":
         else:
             print("All steps completed.")
             break
-elif choice == "2":
+elif option == "2":
     step = 1
     while True:
         if step == 1:
