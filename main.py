@@ -189,16 +189,16 @@ elif option == "2":
     step = 1
     while True:
         if step == 1:
-            print(f"Step 1: Finding and killing a process in pod {pod_name}")
+            print(f"Step 1: Finding a process in pod {pod_name}")
 
             try:
-                find_proc_cmd = f"kubectl exec {pod_name} -n {namespace} -c bouncer -- ps aux | grep /app/bouncer | grep -v grep"
+                find_proc_cmd = f"kubectl --kubeconfig {kubeconfig_path} --namespace {namespace} exec {pod_name} -- ps aux | grep /app/bouncer | grep -v grep"
                 proc_output = subprocess.check_output(find_proc_cmd, shell=True, universal_newlines=True)
 
                 print(proc_output)
                 pid = input("Enter the PID of the process you want to kill: ")
                 # Kill the process
-                kill_proc_cmd = f"kubectl exec {pod_name} -n {namespace} -c bouncer -- kill {pid}"
+                kill_proc_cmd = f"kubectl --kubeconfig {kubeconfig_path} --namespace {namespace} exec {pod_name} -- kill {pid}"
                 subprocess.run(kill_proc_cmd, shell=True, check=True)
                 print(f"Process with PID {pid} killed successfully.")
 
@@ -219,6 +219,7 @@ elif option == "2":
                 time.sleep(5)
 
             print(f"Pod {pod_name} is ready.")
+            step += 1
         else:
             print("All steps completed.")
             break
