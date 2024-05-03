@@ -116,6 +116,9 @@ if option == "1":
                 command = f"kubectl --kubeconfig {kubeconfig_path} --namespace {namespace} cp {local_path} {pod_name}:{remote_path}"
                 subprocess.run(command.split())
 
+                command = f"rm {local_path}"
+                subprocess.run(command.split())
+
                 print(f"File uploaded from {local_path} to {remote_path} in the pod {pod_name}")
             except Exception as e:
                 print(f"Error uploading file: {e}")
@@ -165,6 +168,7 @@ if option == "1":
         elif step == 7:
             # Step 7
             print("Step 7: Diff config between /tmp/test/bouncer_config.yaml and /opt/ns/cfg/bouncer_config.yaml")
+            time.sleep(5)
             command = ["/bin/bash", "-c", "diff /tmp/test/bouncer_config.yaml /opt/ns/cfg/bouncer_config.yaml"]
             resp = core_v1.read_namespaced_pod(name=pod_name, namespace=namespace)
             resp = stream(core_v1.connect_get_namespaced_pod_exec,
@@ -215,7 +219,7 @@ elif option == "2":
             pod_ready = False
             while not pod_ready:
                 pod = core_v1.read_namespaced_pod(name=pod_name, namespace=namespace)
-                pod_ready = all(container.ready for container in pod.status.container_statuses)
+                pod_ready = all(container.started for container in pod.status.container_statuses)
                 time.sleep(5)
 
             print(f"Pod {pod_name} is ready.")
