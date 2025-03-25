@@ -20,7 +20,8 @@ mp_dict = {
     "sv5": f"{base_path}c1-sv5.yaml",
     "zur2": f"{base_path}stork-zur2-mp-prod-zur2-nc1.yaml",
     "qa.local": f"{base_path}c1-iad0-qa.yaml",
-    "qa01": f"{base_path}stork-qa01-mp-npe-iad0-nc1.yaml"
+    "qa01": f"{base_path}stork-qa01-mp-npe-iad0-nc1.yaml",
+    "stg01": f"{base_path}stork-stg01-mp-iad0-nc4.yaml"
 }
 kubeconfig_path = mp_dict[mp]
 
